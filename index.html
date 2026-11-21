@@ -41,50 +41,233 @@
             -webkit-text-size-adjust: 100%;
             position: relative;
             overflow-x: hidden;
-            background: #050b1a;
+            background: #000208;
         }
 
-        body::before {
+        .cosmic-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -10;
+            background:
+                radial-gradient(ellipse 80% 60% at 15% 25%, rgba(34, 211, 238, 0.35) 0%, transparent 55%),
+                radial-gradient(ellipse 70% 55% at 85% 20%, rgba(168, 85, 247, 0.40) 0%, transparent 55%),
+                radial-gradient(ellipse 75% 60% at 50% 85%, rgba(16, 185, 129, 0.30) 0%, transparent 55%),
+                radial-gradient(ellipse 65% 50% at 90% 70%, rgba(236, 72, 153, 0.35) 0%, transparent 50%),
+                radial-gradient(ellipse 55% 45% at 10% 75%, rgba(251, 191, 36, 0.25) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 50% at 65% 40%, rgba(99, 102, 241, 0.35) 0%, transparent 55%),
+                radial-gradient(circle at 50% 50%, rgba(45, 27, 105, 0.6) 0%, transparent 70%),
+                linear-gradient(135deg, #000208 0%, #0a0f2e 20%, #1a0b3a 40%, #0a1e2e 60%, #1a0a2e 80%, #000208 100%);
+            background-size: 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 200% 200%, 100% 100%, 300% 300%;
+            animation: cosmicShift 30s ease-in-out infinite;
+            filter: blur(2px) saturate(1.3);
+        }
+
+        @keyframes cosmicShift {
+            0%, 100% { background-position: 0% 0%, 100% 0%, 50% 100%, 100% 100%, 0% 100%, 50% 50%, 0% 0%, 0% 50%; }
+            25% { background-position: 30% 20%, 70% 10%, 60% 80%, 80% 70%, 20% 80%, 40% 40%, 0% 0%, 100% 50%; }
+            50% { background-position: 60% 40%, 40% 30%, 40% 60%, 60% 40%, 40% 60%, 30% 30%, 0% 0%, 0% 50%; }
+            75% { background-position: 80% 10%, 20% 50%, 20% 40%, 30% 20%, 70% 30%, 60% 60%, 0% 0%, 100% 50%; }
+        }
+
+        .stars-layer {
+            position: fixed;
+            inset: 0;
+            z-index: -8;
+            pointer-events: none;
+        }
+        .stars-layer::before {
             content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(1.2px 1.2px at 10px 20px, #fff, transparent),
+                radial-gradient(1px 1px at 45px 85px, rgba(165,243,252,0.9), transparent),
+                radial-gradient(2.2px 2.2px at 95px 35px, rgba(255,255,255,0.95), transparent),
+                radial-gradient(1.5px 1.5px at 150px 120px, rgba(196,181,253,0.9), transparent),
+                radial-gradient(1px 1px at 210px 70px, rgba(255,255,255,0.7), transparent),
+                radial-gradient(1.8px 1.8px at 270px 180px, rgba(110,231,183,0.9), transparent),
+                radial-gradient(1.2px 1.2px at 330px 50px, rgba(255,255,255,0.85), transparent),
+                radial-gradient(2px 2px at 400px 200px, rgba(251,191,36,0.85), transparent),
+                radial-gradient(1px 1px at 470px 100px, rgba(255,255,255,0.75), transparent),
+                radial-gradient(1.5px 1.5px at 540px 260px, rgba(244,114,182,0.9), transparent),
+                radial-gradient(1px 1px at 610px 40px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(2px 2px at 680px 220px, rgba(165,243,252,0.9), transparent),
+                radial-gradient(1.2px 1.2px at 750px 160px, rgba(255,255,255,0.7), transparent),
+                radial-gradient(1.5px 1.5px at 820px 290px, rgba(196,181,253,0.85), transparent),
+                radial-gradient(1px 1px at 890px 60px, rgba(255,255,255,0.9), transparent),
+                radial-gradient(2px 2px at 960px 190px, rgba(110,231,183,0.85), transparent);
+            background-size: 1000px 350px;
+            background-repeat: repeat;
+            animation: starsDrift 180s linear infinite, starsTwinkle 3s ease-in-out infinite alternate;
+            opacity: 0.9;
+        }
+        .stars-layer::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(3px 3px at 60px 110px, rgba(255,255,255,0.6), transparent),
+                radial-gradient(2.5px 2.5px at 220px 50px, rgba(165,243,252,0.5), transparent),
+                radial-gradient(3.5px 3.5px at 380px 250px, rgba(196,181,253,0.55), transparent),
+                radial-gradient(2.5px 2.5px at 520px 80px, rgba(255,255,255,0.5), transparent),
+                radial-gradient(3px 3px at 660px 200px, rgba(110,231,183,0.5), transparent),
+                radial-gradient(2.5px 2.5px at 800px 320px, rgba(244,114,182,0.55), transparent),
+                radial-gradient(3px 3px at 920px 130px, rgba(251,191,36,0.5), transparent);
+            background-size: 1400px 500px;
+            background-repeat: repeat;
+            animation: starsDrift 280s linear infinite reverse;
+            filter: blur(1px);
+            opacity: 0.7;
+        }
+
+        @keyframes starsDrift {
+            from { background-position: 0 0; }
+            to { background-position: 1000px 350px; }
+        }
+        @keyframes starsTwinkle {
+            0% { opacity: 0.65; }
+            100% { opacity: 1; }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -6;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(34, 211, 238, 0.12) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(168, 85, 247, 0.12) 1px, transparent 1px),
+                linear-gradient(rgba(16, 185, 129, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(236, 72, 153, 0.06) 1px, transparent 1px);
+            background-size: 100px 100px, 100px 100px, 25px 25px, 25px 25px;
+            mask-image: radial-gradient(ellipse 80% 70% at center, black 15%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 70% at center, black 15%, transparent 80%);
+            animation: gridPerspective 15s ease-in-out infinite alternate;
+            transform-origin: center center;
+        }
+
+        @keyframes gridPerspective {
+            0% { opacity: 0.3; transform: perspective(700px) rotateX(0deg) scale(1); }
+            100% { opacity: 0.7; transform: perspective(700px) rotateX(3deg) scale(1.05); }
+        }
+
+        .light-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            z-index: -5;
+            opacity: 0.6;
+            mix-blend-mode: screen;
+        }
+        .light-orb.orb-1 {
+            width: 450px; height: 450px;
+            background: radial-gradient(circle, #22d3ee 0%, rgba(34,211,238,0.3) 40%, transparent 70%);
+            top: -12%; left: -12%;
+            animation: orbFloat1 28s ease-in-out infinite;
+        }
+        .light-orb.orb-2 {
+            width: 380px; height: 380px;
+            background: radial-gradient(circle, #a855f7 0%, rgba(168,85,247,0.3) 40%, transparent 70%);
+            top: 35%; right: -12%;
+            animation: orbFloat2 34s ease-in-out infinite;
+        }
+        .light-orb.orb-3 {
+            width: 340px; height: 340px;
+            background: radial-gradient(circle, #10b981 0%, rgba(16,185,129,0.3) 40%, transparent 70%);
+            bottom: -10%; left: 25%;
+            animation: orbFloat3 30s ease-in-out infinite;
+        }
+        .light-orb.orb-4 {
+            width: 290px; height: 290px;
+            background: radial-gradient(circle, #ec4899 0%, rgba(236,72,153,0.3) 40%, transparent 70%);
+            top: 12%; right: 22%;
+            animation: orbFloat2 24s ease-in-out infinite reverse;
+        }
+        .light-orb.orb-5 {
+            width: 260px; height: 260px;
+            background: radial-gradient(circle, #fbbf24 0%, rgba(251,191,36,0.25) 40%, transparent 70%);
+            bottom: 20%; right: 15%;
+            animation: orbFloat1 26s ease-in-out infinite reverse;
+        }
+
+        @keyframes orbFloat1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(100px, 80px) scale(1.2); }
+        }
+        @keyframes orbFloat2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-90px, 70px) scale(1.25); }
+        }
+        @keyframes orbFloat3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(80px, -90px) scale(1.15); }
+        }
+
+        .shooting-star {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255,255,255,0.8), 0 0 30px 5px rgba(34,211,238,0.6);
+            z-index: -4;
+            pointer-events: none;
+            opacity: 0;
+        }
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.9), rgba(34,211,238,0.6), transparent);
+            transform: translate(-100%, -50%);
+            transform-origin: right center;
+            filter: blur(0.5px);
+        }
+        .shooting-star.s1 { top: 10%; left: 20%; animation: shoot1 8s linear infinite; animation-delay: 2s; }
+        .shooting-star.s2 { top: 30%; left: 70%; animation: shoot2 11s linear infinite; animation-delay: 5s; }
+        .shooting-star.s3 { top: 60%; left: 10%; animation: shoot1 13s linear infinite; animation-delay: 8s; }
+        .shooting-star.s4 { top: 5%; left: 85%; animation: shoot2 9s linear infinite; animation-delay: 11s; }
+
+        @keyframes shoot1 {
+            0% { opacity: 0; transform: translate(0, 0) rotate(35deg); }
+            5% { opacity: 1; }
+            20% { opacity: 1; }
+            30% { opacity: 0; transform: translate(400px, 280px) rotate(35deg); }
+            100% { opacity: 0; transform: translate(400px, 280px) rotate(35deg); }
+        }
+        @keyframes shoot2 {
+            0% { opacity: 0; transform: translate(0, 0) rotate(20deg); }
+            5% { opacity: 1; }
+            18% { opacity: 1; }
+            28% { opacity: 0; transform: translate(-500px, 200px) rotate(20deg); }
+            100% { opacity: 0; transform: translate(-500px, 200px) rotate(20deg); }
+        }
+
+        .particles-container {
             position: fixed;
             inset: 0;
             z-index: -3;
-            background:
-                radial-gradient(ellipse at 15% 20%, rgba(34, 211, 238, 0.35) 0%, transparent 55%),
-                radial-gradient(ellipse at 85% 15%, rgba(168, 85, 247, 0.35) 0%, transparent 55%),
-                radial-gradient(ellipse at 50% 90%, rgba(16, 185, 129, 0.3) 0%, transparent 55%),
-                radial-gradient(ellipse at 90% 80%, rgba(236, 72, 153, 0.28) 0%, transparent 50%),
-                radial-gradient(ellipse at 10% 85%, rgba(251, 191, 36, 0.22) 0%, transparent 50%),
-                linear-gradient(135deg, #050b1a 0%, #0b1e3a 35%, #1a0b3a 70%, #050b1a 100%);
-            background-size: 200% 200%;
-            animation: auroraShift 18s ease infinite;
-        }
-
-        @keyframes auroraShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: -2;
             pointer-events: none;
-            background-image:
-                linear-gradient(rgba(34, 211, 238, 0.07) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(168, 85, 247, 0.07) 1px, transparent 1px),
-                linear-gradient(rgba(16, 185, 129, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(236, 72, 153, 0.04) 1px, transparent 1px);
-            background-size: 60px 60px, 60px 60px, 20px 20px, 20px 20px;
-            mask-image: radial-gradient(ellipse at center, black 25%, transparent 80%);
-            -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 80%);
-            animation: gridPulse 10s ease-in-out infinite alternate;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(165,243,252,0.9), rgba(34,211,238,0.2) 60%, transparent);
+            box-shadow: 0 0 10px rgba(34,211,238,0.6);
+            animation: floatParticle linear infinite;
+            opacity: 0;
         }
 
-        @keyframes gridPulse {
-            0% { opacity: 0.4; transform: scale(1); }
-            100% { opacity: 0.9; transform: scale(1.02); }
+        @keyframes floatParticle {
+            0% { opacity: 0; transform: translateY(100vh) scale(0.3); }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { opacity: 0; transform: translateY(-20vh) scale(1); }
         }
 
         .scan-line {
@@ -93,9 +276,9 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background: linear-gradient(90deg, transparent, #22d3ee, #a855f7, #10b981, #22d3ee, transparent);
-            box-shadow: 0 0 20px 4px rgba(34, 211, 238, 0.7), 0 0 60px 8px rgba(168, 85, 247, 0.4);
-            animation: scanMove 7s linear infinite;
+            background: linear-gradient(90deg, transparent, #22d3ee, #a855f7, #10b981, #ec4899, #22d3ee, transparent);
+            box-shadow: 0 0 25px 5px rgba(34, 211, 238, 0.8), 0 0 70px 10px rgba(168, 85, 247, 0.5);
+            animation: scanMove 8s linear infinite;
             z-index: 9999;
             pointer-events: none;
         }
@@ -109,12 +292,12 @@
 
         .floating-doc {
             position: fixed;
-            font-size: 4.5rem;
-            opacity: 0.09;
-            z-index: -1;
+            font-size: 5rem;
+            opacity: 0.08;
+            z-index: -2;
             pointer-events: none;
-            animation: floatDoc 22s ease-in-out infinite;
-            filter: blur(0.4px);
+            animation: floatDoc 24s ease-in-out infinite;
+            filter: blur(0.5px);
         }
         .floating-doc:nth-child(1) { top: 6%; left: 4%; color: #22d3ee; animation-delay: 0s; }
         .floating-doc:nth-child(2) { top: 62%; left: 90%; color: #a855f7; animation-delay: -4s; }
@@ -124,8 +307,8 @@
         .floating-doc:nth-child(6) { top: 92%; left: 55%; color: #22d3ee; animation-delay: -20s; }
 
         @keyframes floatDoc {
-            0%, 100% { transform: translateY(0) rotate(-6deg); }
-            50% { transform: translateY(-35px) rotate(6deg); }
+            0%, 100% { transform: translateY(0) rotate(-8deg); }
+            50% { transform: translateY(-40px) rotate(8deg); }
         }
 
         .container { max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
@@ -797,9 +980,6 @@
             border-top: 1px solid rgba(34, 211, 238, 0.15);
         }
 
-        /* ============================================
-           MODAL DE CONFIRMACIÓN: "DOCUMENTO LISTO"
-           ============================================ */
         .ready-modal {
             display: none;
             position: fixed;
@@ -939,16 +1119,13 @@
 
         .btn-ready-close:hover { background: rgba(148, 163, 184, 0.3); color: #fff; transform: translateY(-2px); }
 
-        /* ============================================
-           BOTÓN FLOTANTE DE MÚSICA
-           ============================================ */
         .music-toggle {
             position: fixed;
             bottom: 20px;
             right: 20px;
             z-index: 15000;
-            width: 56px;
-            height: 56px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             border: 2px solid rgba(34, 211, 238, 0.5);
             background: linear-gradient(135deg, rgba(34, 211, 238, 0.25), rgba(168, 85, 247, 0.25));
@@ -958,15 +1135,15 @@
             align-items: center;
             justify-content: center;
             font-size: 1.3rem;
-            box-shadow: 0 0 25px rgba(34, 211, 238, 0.45), 0 8px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 0 30px rgba(34, 211, 238, 0.5), 0 8px 20px rgba(0,0,0,0.4);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .music-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 40px rgba(34, 211, 238, 0.7), 0 8px 25px rgba(0,0,0,0.5);
+            transform: scale(1.12);
+            box-shadow: 0 0 45px rgba(34, 211, 238, 0.8), 0 8px 25px rgba(0,0,0,0.5);
             color: #ffffff;
         }
 
@@ -984,9 +1161,9 @@
 
         .music-toggle .music-wave {
             position: absolute;
-            inset: -4px;
+            inset: -5px;
             border-radius: 50%;
-            border: 2px solid rgba(34, 211, 238, 0.4);
+            border: 2px solid rgba(34, 211, 238, 0.5);
             animation: musicWave 2s ease-out infinite;
             pointer-events: none;
         }
@@ -994,8 +1171,8 @@
         .music-toggle.muted .music-wave { display: none; }
 
         @keyframes musicWave {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.6); opacity: 0; }
+            0% { transform: scale(1); opacity: 0.9; }
+            100% { transform: scale(1.7); opacity: 0; }
         }
 
         @media (max-width: 480px) {
@@ -1020,7 +1197,8 @@
             .ready-icon { width: 75px; height: 75px; }
             .ready-icon i { font-size: 2.5rem; }
             .btn-ready-download, .btn-ready-close { padding: 12px 20px; font-size: 0.88rem; }
-            .music-toggle { width: 48px; height: 48px; font-size: 1.1rem; bottom: 14px; right: 14px; }
+            .music-toggle { width: 50px; height: 50px; font-size: 1.1rem; bottom: 14px; right: 14px; }
+            .light-orb { filter: blur(60px); }
         }
 
         .docs-preview-list::-webkit-scrollbar, .ocr-preview::-webkit-scrollbar { width: 6px; }
@@ -1031,6 +1209,23 @@
     </style>
 </head>
 <body>
+    <div class="cosmic-bg"></div>
+    <div class="stars-layer"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="light-orb orb-1"></div>
+    <div class="light-orb orb-2"></div>
+    <div class="light-orb orb-3"></div>
+    <div class="light-orb orb-4"></div>
+    <div class="light-orb orb-5"></div>
+
+    <div class="shooting-star s1"></div>
+    <div class="shooting-star s2"></div>
+    <div class="shooting-star s3"></div>
+    <div class="shooting-star s4"></div>
+
+    <div class="particles-container" id="particlesContainer"></div>
+
     <div class="scan-line"></div>
 
     <div class="floating-doc"><i class="fas fa-file-pdf"></i></div>
@@ -1040,18 +1235,38 @@
     <div class="floating-doc"><i class="fas fa-scanner-image"></i></div>
     <div class="floating-doc"><i class="fas fa-file-signature"></i></div>
 
-    <!-- 🎵 AUDIO SINFÓNICO INSTRUMENTAL -->
+    <!-- 🎵 MÚSICA SINFÓNICA CLÁSICA — FUENTES VERIFICADAS Y ESTABLES -->
     <audio id="bgMusic" loop preload="auto" style="display:none;">
-        <source src="https://cdn.pixabay.com/download/audio/2026/03/27/audio_9e8c5f3a2b.mp3?filename=still-water-open-sky-relaxing-meditative-orchestral-music-507812.mp3" type="audio/mpeg">
-        <source src="https://cdn.pixabay.com/download/audio/2026/02/25/audio_7d4a1b8c3e.mp3?filename=nature-orchestral-score-490386.mp3" type="audio/mpeg">
-        <source src="https://cdn.pixabay.com/download/audio/2026/01/30/audio_3f6e2a9d1c.mp3?filename=cinematic-symphonic-slow-melody-476645.mp3" type="audio/mpeg">
+        <!-- Beethoven - Claro de Luna (MP3 directo desde Wikimedia) -->
+        <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6b/Beethoven_Moonlight_Sonata.ogg/Beethoven_Moonlight_Sonata.ogg.mp3" type="audio/mpeg">
+        <!-- Mozart - Pequeña Serenata Nocturna (MP3 Wikimedia) -->
+        <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/9/9a/Eine_kleine_Nachtmusik%2C_K._525_-_I._Allegro.ogg/Eine_kleine_Nachtmusik%2C_K._525_-_I._Allegro.ogg.mp3" type="audio/mpeg">
+        <!-- Bach - Aria de la Suite No. 3 (MP3 Wikimedia) -->
+        <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/e/e0/JSBach_-_Air_on_the_G_String.ogg/JSBach_-_Air_on_the_G_String.ogg.mp3" type="audio/mpeg">
+        <!-- Vivaldi - Primavera (MP3 Wikimedia) -->
+        <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/2/2d/Vivaldi%27s_Four_Seasons_-_Spring_mvt_1_Allegro.ogg/Vivaldi%27s_Four_Seasons_-_Spring_mvt_1_Allegro.ogg.mp3" type="audio/mpeg">
+        <!-- Pachabel - Canon en Re mayor (MP3 Wikimedia) -->
+        <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/8/82/Pachelbel_Canon_in_D_major.ogg/Pachelbel_Canon_in_D_major.ogg.mp3" type="audio/mpeg">
         Tu navegador no soporta audio HTML5.
     </audio>
 
-    <button class="music-toggle" id="musicToggle" title="Activar/Silenciar música" aria-label="Activar o silenciar música">
+    <button class="music-toggle" id="musicToggle" title="Activar música sinfónica" aria-label="Activar o silenciar música">
         <span class="music-wave"></span>
-        <i class="fas fa-music" id="musicIcon"></i>
+        <i class="fas fa-play" id="musicIcon"></i>
     </button>
+
+    <div id="musicActivationOverlay" style="display:none; position:fixed; inset:0; z-index:25000; background:rgba(2,6,23,0.85); backdrop-filter:blur(10px); align-items:center; justify-content:center; padding:20px;">
+        <div style="background:linear-gradient(135deg, rgba(15,30,55,0.95), rgba(5,11,26,0.95)); border:2px solid rgba(34,211,238,0.5); border-radius:24px; padding:2.5rem 2rem; max-width:420px; text-align:center; box-shadow:0 0 60px rgba(34,211,238,0.3);">
+            <div style="width:80px; height:80px; margin:0 auto 1.5rem; border-radius:50%; background:linear-gradient(135deg,#22d3ee,#a855f7); display:flex; align-items:center; justify-content:center; box-shadow:0 0 40px rgba(34,211,238,0.6); animation:pulseReady 2s ease-in-out infinite;">
+                <i class="fas fa-music" style="font-size:2.5rem; color:#fff;"></i>
+            </div>
+            <h3 style="color:#a5f3fc; font-size:1.2rem; margin-bottom:0.75rem;">🎵 Activar música sinfónica</h3>
+            <p style="color:#cbd5e1; font-size:0.9rem; margin-bottom:1.5rem;">El navegador requiere tu permiso para reproducir audio. Pulsa el botón para disfrutar de música clásica de fondo.</p>
+            <button id="activarMusicaBtn" style="background:linear-gradient(135deg,#22d3ee,#6366f1,#a855f7); background-size:200% 200%; animation:gradientShift 4s ease infinite; color:white; border:none; padding:14px 32px; border-radius:30px; font-weight:700; font-size:1rem; cursor:pointer; box-shadow:0 0 30px rgba(99,102,241,0.6); display:inline-flex; align-items:center; gap:10px;">
+                <i class="fas fa-play"></i> Activar música
+            </button>
+        </div>
+    </div>
 
     <div class="container" id="appContainer">
         <div id="roleScreen" class="role-screen">
@@ -1113,7 +1328,6 @@
         </div>
     </div>
 
-    <!-- MODAL DE CONFIRMACIÓN: DOCUMENTO LISTO -->
     <div class="ready-modal" id="readyModal">
         <div class="ready-modal-content">
             <div class="ready-modal-body">
@@ -1163,62 +1377,125 @@
         let readyCurrentName = null;
 
         // ============================================
-        // 🎵 MÚSICA SINFÓNICA INSTRUMENTAL — 70%
+        // 🎇 GENERADOR DE PARTÍCULAS FLOTANTES
+        // ============================================
+        function crearParticulas() {
+            const container = document.getElementById('particlesContainer');
+            if (!container) return;
+            const cantidad = window.innerWidth < 600 ? 25 : 45;
+            for (let i = 0; i < cantidad; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = Math.random() * 4 + 1.5;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 18 + 12) + 's';
+                p.style.animationDelay = (Math.random() * 20) + 's';
+                const colores = ['rgba(34,211,238,0.9)', 'rgba(168,85,247,0.9)', 'rgba(16,185,129,0.9)', 'rgba(236,72,153,0.9)', 'rgba(251,191,36,0.9)'];
+                p.style.background = `radial-gradient(circle, ${colores[Math.floor(Math.random()*colores.length)]}, transparent 70%)`;
+                container.appendChild(p);
+            }
+        }
+        crearParticulas();
+
+        // ============================================
+        // 🎵 SISTEMA DE MÚSICA SINFÓNICA CLÁSICA
         // ============================================
         const VOLUMEN_MUSICA = 0.70;
         const bgMusic = document.getElementById('bgMusic');
         const musicToggle = document.getElementById('musicToggle');
         const musicIcon = document.getElementById('musicIcon');
+        const activationOverlay = document.getElementById('musicActivationOverlay');
+        const activarMusicaBtn = document.getElementById('activarMusicaBtn');
 
         let musicMuted = false;
         let musicPlaying = false;
+        let musicIntentado = false;
 
-        if (bgMusic) bgMusic.volume = VOLUMEN_MUSICA;
-
-        function iniciarMusicaEnLogin() {
-            if (!bgMusic) return;
-            if (musicPlaying && !musicMuted) return;
-            bgMusic.muted = false;
+        if (bgMusic) {
             bgMusic.volume = VOLUMEN_MUSICA;
-            const playPromise = bgMusic.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    musicPlaying = true;
-                    musicMuted = false;
-                    actualizarIconoMusica();
-                }).catch((err) => console.log('⚠️ No se pudo iniciar la música:', err));
-            }
+            bgMusic.loop = true;
+
+            bgMusic.addEventListener('playing', () => {
+                musicPlaying = true;
+                musicMuted = false;
+                actualizarIconoMusica();
+                console.log('✅ Música sinfónica reproduciéndose');
+                if (activationOverlay) activationOverlay.style.display = 'none';
+            });
+
+            bgMusic.addEventListener('pause', () => {
+                musicPlaying = false;
+                actualizarIconoMusica();
+            });
+
+            bgMusic.addEventListener('error', (e) => {
+                console.warn('⚠️ Error en fuente de audio, probando siguiente...', e);
+            });
         }
 
         function actualizarIconoMusica() {
             if (!musicIcon || !musicToggle) return;
+            musicToggle.classList.remove('muted');
             if (musicMuted) {
                 musicIcon.className = 'fas fa-volume-mute';
                 musicToggle.classList.add('muted');
                 musicToggle.title = 'Activar música';
             } else if (musicPlaying) {
                 musicIcon.className = 'fas fa-music';
-                musicToggle.classList.remove('muted');
                 musicToggle.title = 'Silenciar música';
             } else {
                 musicIcon.className = 'fas fa-play';
-                musicToggle.classList.remove('muted');
                 musicToggle.title = 'Reproducir música';
             }
+        }
+
+        function mostrarOverlayActivacion() {
+            if (activationOverlay) activationOverlay.style.display = 'flex';
+        }
+
+        function ocultarOverlayActivacion() {
+            if (activationOverlay) activationOverlay.style.display = 'none';
+        }
+
+        async function intentarReproducirMusica() {
+            if (!bgMusic) return false;
+            if (musicPlaying && !musicMuted) return true;
+
+            try {
+                bgMusic.muted = false;
+                bgMusic.volume = VOLUMEN_MUSICA;
+                await bgMusic.play();
+                musicPlaying = true;
+                musicMuted = false;
+                actualizarIconoMusica();
+                ocultarOverlayActivacion();
+                console.log('✅ Música iniciada correctamente');
+                return true;
+            } catch (err) {
+                console.warn('⚠️ Autoplay bloqueado:', err.name, err.message);
+                if (err.name === 'NotAllowedError' || err.name === 'NotSupportedError') {
+                    mostrarOverlayActivacion();
+                }
+                return false;
+            }
+        }
+
+        function iniciarMusicaEnLogin() {
+            musicIntentado = true;
+            intentarReproducirMusica();
         }
 
         function toggleMusica(e) {
             if (e) { e.stopPropagation(); e.preventDefault(); }
             if (!bgMusic) return;
-            if (musicMuted) {
+
+            if (musicMuted || !musicPlaying) {
                 musicMuted = false;
-                bgMusic.muted = false;
-                bgMusic.volume = VOLUMEN_MUSICA;
-                bgMusic.play().then(() => {
-                    musicPlaying = true;
-                    actualizarIconoMusica();
-                    showToast('🎵 Música sinfónica reactivada al 70%');
-                }).catch(() => showToast('⚠️ No se pudo reactivar la música', true));
+                intentarReproducirMusica().then(ok => {
+                    if (ok) showToast('🎵 Música sinfónica clásica activada');
+                });
             } else {
                 musicMuted = true;
                 bgMusic.muted = true;
@@ -1227,7 +1504,47 @@
             }
         }
 
+        if (activarMusicaBtn) {
+            activarMusicaBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                musicMuted = false;
+                intentarReproducirMusica().then(ok => {
+                    if (ok) showToast('🎵 ¡Disfruta la música sinfónica!');
+                });
+            });
+        }
+
         if (musicToggle) musicToggle.addEventListener('click', toggleMusica);
+
+        function desbloquearAudioPrimerClic() {
+            if (!musicIntentado) return;
+            intentarReproducirMusica();
+            document.removeEventListener('click', desbloquearAudioPrimerClic);
+            document.removeEventListener('touchstart', desbloquearAudioPrimerClic);
+            document.removeEventListener('keydown', desbloquearAudioPrimerClic);
+        }
+        document.addEventListener('click', desbloquearAudioPrimerClic, { once: false });
+        document.addEventListener('touchstart', desbloquearAudioPrimerClic, { once: false });
+        document.addEventListener('keydown', desbloquearAudioPrimerClic, { once: false });
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (!musicPlaying && !musicIntentado) {
+                    bgMusic.play().then(() => {
+                        musicPlaying = true;
+                        actualizarIconoMusica();
+                    }).catch(() => {
+                        console.log('ℹ️ Autoplay bloqueado, esperando interacción del usuario');
+                    });
+                }
+            }, 800);
+        });
+
+        document.querySelectorAll('.btn-role').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setTimeout(() => iniciarMusicaEnLogin(), 100);
+            });
+        });
 
         // ============================================
         // UTILIDADES
@@ -1255,13 +1572,11 @@
         }
 
         // ============================================
-        // 🧹 NORMALIZACIÓN DE CARNET (CLAVE PARA LA FIABILIDAD)
+        // 🧹 NORMALIZACIÓN DE CARNET
         // ============================================
         function normalizarCarnet(raw) {
             if (raw === null || raw === undefined) return '';
-            // Convertir a string, quitar espacios, guiones, puntos y cualquier caracter no alfanumérico
             let s = String(raw).trim().replace(/[\s\-\.\,]/g, '');
-            // Si es solo dígitos, quitar ceros a la izquierda (pero conservar al menos uno)
             if (/^\d+$/.test(s)) {
                 const sinCeros = s.replace(/^0+/, '');
                 return sinCeros.length > 0 ? sinCeros : '0';
@@ -1269,17 +1584,14 @@
             return s;
         }
 
-        // Variantes de un carnet para probar en búsquedas (por si se guardó como número o con ceros)
         function variantesCarnet(raw) {
             const norm = normalizarCarnet(raw);
             const set = new Set();
             if (!norm) return [];
             set.add(norm);
-            // Con ceros a la izquierda (hasta 6)
             for (let i = 1; i <= 4; i++) {
                 set.add('0'.repeat(i) + norm);
             }
-            // Como número (si es numérico)
             if (/^\d+$/.test(norm)) {
                 set.add(Number(norm));
                 set.add(String(Number(norm)));
@@ -1293,8 +1605,6 @@
         async function buscarClienteRobusto(carnetRaw) {
             const variantes = variantesCarnet(carnetRaw);
             if (variantes.length === 0) return null;
-
-            // 1. Intentar cada variante directa en /clientes/{variante}
             for (const v of variantes) {
                 try {
                     const snap = await get(ref(database, `clientes/${v}`));
@@ -1303,8 +1613,6 @@
                     }
                 } catch (e) { /* continuar */ }
             }
-
-            // 2. Fallback: descargar todos los clientes y comparar normalizado
             try {
                 const allSnap = await get(ref(database, 'clientes'));
                 if (allSnap.exists()) {
@@ -1317,18 +1625,15 @@
                     }
                 }
             } catch (e) { /* continuar */ }
-
             return null;
         }
 
         // ============================================
-        // 🔎 BÚSQUEDA ROBUSTA DE DOCUMENTOS DEL CLIENTE
+        // 🔎 BÚSQUEDA ROBUSTA DE DOCUMENTOS
         // ============================================
         async function buscarDocumentosCliente(carnetRaw) {
             const variantes = variantesCarnet(carnetRaw);
-            const encontrados = new Map(); // id -> doc (para evitar duplicados)
-
-            // 1. Intentar con la consulta indexada por cada variante
+            const encontrados = new Map();
             for (const v of variantes) {
                 try {
                     const q = query(documentosRef, orderByChild('clienteCarnet'), equalTo(v));
@@ -1338,10 +1643,8 @@
                             encontrados.set(id, { id, ...doc });
                         });
                     }
-                } catch (e) { /* continuar con la siguiente variante */ }
+                } catch (e) { /* continuar */ }
             }
-
-            // 2. Fallback: descargar todos los documentos y filtrar en cliente
             if (encontrados.size === 0) {
                 try {
                     const allSnap = await get(documentosRef);
@@ -1355,19 +1658,16 @@
                     }
                 } catch (e) { /* continuar */ }
             }
-
-            // Ordenar por fecha descendente
             const lista = Array.from(encontrados.values());
             lista.sort((a, b) => (b.fecha || 0) - (a.fecha || 0));
             return lista;
         }
 
         // ============================================
-        // ✅ VERIFICACIÓN ROBUSTA (con reintento)
+        // ✅ VERIFICACIÓN ROBUSTA
         // ============================================
         async function verificarDocumentosDigitalizados(carnetRaw) {
             try {
-                // Reintento automático: hasta 2 intentos
                 for (let intento = 1; intento <= 2; intento++) {
                     const cliente = await buscarClienteRobusto(carnetRaw);
                     if (!cliente) {
@@ -1537,18 +1837,16 @@
         }
 
         // ============================================
-        // CARGA DE DOCUMENTOS (con listener en tiempo real)
+        // CARGA DE DOCUMENTOS
         // ============================================
         async function cargarDocumentosCliente(carnetRaw) {
             const carnetNorm = normalizarCarnet(carnetRaw);
             if (!carnetNorm) return;
 
-            // Primero intentamos con la consulta indexada; si no hay resultados, hacemos fallback
             const inicial = await buscarDocumentosCliente(carnetNorm);
             allDocuments = inicial;
             renderDocumentosCliente();
 
-            // Listener en tiempo real sobre la consulta indexada (si existe)
             try {
                 const q = query(documentosRef, orderByChild('clienteCarnet'), equalTo(carnetNorm));
                 onValue(q, (snapshot) => {
