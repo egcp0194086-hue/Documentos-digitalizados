@@ -1235,22 +1235,7 @@
     <div class="floating-doc"><i class="fas fa-scanner-image"></i></div>
     <div class="floating-doc"><i class="fas fa-file-signature"></i></div>
 
-    <!-- 🎵 MÚSICA SINFÓNICA CLÁSICA — FUENTES VERIFICADAS Y ESTABLES -->
-    <audio id="bgMusic" loop preload="auto" style="display:none;">
-        <!-- Beethoven - Claro de Luna (MP3 directo desde Wikimedia) -->
-        <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6b/Beethoven_Moonlight_Sonata.ogg/Beethoven_Moonlight_Sonata.ogg.mp3" type="audio/mpeg">
-        <!-- Mozart - Pequeña Serenata Nocturna (MP3 Wikimedia) -->
-        <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/9/9a/Eine_kleine_Nachtmusik%2C_K._525_-_I._Allegro.ogg/Eine_kleine_Nachtmusik%2C_K._525_-_I._Allegro.ogg.mp3" type="audio/mpeg">
-        <!-- Bach - Aria de la Suite No. 3 (MP3 Wikimedia) -->
-        <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/e/e0/JSBach_-_Air_on_the_G_String.ogg/JSBach_-_Air_on_the_G_String.ogg.mp3" type="audio/mpeg">
-        <!-- Vivaldi - Primavera (MP3 Wikimedia) -->
-        <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/2/2d/Vivaldi%27s_Four_Seasons_-_Spring_mvt_1_Allegro.ogg/Vivaldi%27s_Four_Seasons_-_Spring_mvt_1_Allegro.ogg.mp3" type="audio/mpeg">
-        <!-- Pachabel - Canon en Re mayor (MP3 Wikimedia) -->
-        <source src="https://upload.wikimedia.org/wikipedia/commons/transcoded/8/82/Pachelbel_Canon_in_D_major.ogg/Pachelbel_Canon_in_D_major.ogg.mp3" type="audio/mpeg">
-        Tu navegador no soporta audio HTML5.
-    </audio>
-
-    <button class="music-toggle" id="musicToggle" title="Activar música sinfónica" aria-label="Activar o silenciar música">
+    <button class="music-toggle" id="musicToggle" title="Abrir radio de música clásica en YouTube" aria-label="Abrir música en YouTube">
         <span class="music-wave"></span>
         <i class="fas fa-play" id="musicIcon"></i>
     </button>
@@ -1260,10 +1245,10 @@
             <div style="width:80px; height:80px; margin:0 auto 1.5rem; border-radius:50%; background:linear-gradient(135deg,#22d3ee,#a855f7); display:flex; align-items:center; justify-content:center; box-shadow:0 0 40px rgba(34,211,238,0.6); animation:pulseReady 2s ease-in-out infinite;">
                 <i class="fas fa-music" style="font-size:2.5rem; color:#fff;"></i>
             </div>
-            <h3 style="color:#a5f3fc; font-size:1.2rem; margin-bottom:0.75rem;">🎵 Activar música sinfónica</h3>
-            <p style="color:#cbd5e1; font-size:0.9rem; margin-bottom:1.5rem;">El navegador requiere tu permiso para reproducir audio. Pulsa el botón para disfrutar de música clásica de fondo.</p>
+            <h3 style="color:#a5f3fc; font-size:1.2rem; margin-bottom:0.75rem;">🎵 Música clásica en YouTube</h3>
+            <p style="color:#cbd5e1; font-size:0.9rem; margin-bottom:1.5rem;">Pulsa el botón para abrir la radio de música clásica 24/7 en YouTube.</p>
             <button id="activarMusicaBtn" style="background:linear-gradient(135deg,#22d3ee,#6366f1,#a855f7); background-size:200% 200%; animation:gradientShift 4s ease infinite; color:white; border:none; padding:14px 32px; border-radius:30px; font-weight:700; font-size:1rem; cursor:pointer; box-shadow:0 0 30px rgba(99,102,241,0.6); display:inline-flex; align-items:center; gap:10px;">
-                <i class="fas fa-play"></i> Activar música
+                <i class="fas fa-play"></i> Abrir en YouTube
             </button>
         </div>
     </div>
@@ -1400,151 +1385,42 @@
         crearParticulas();
 
         // ============================================
-        // 🎵 SISTEMA DE MÚSICA SINFÓNICA CLÁSICA
+        // 🎵 MÚSICA — Al pulsar Play abre YouTube
         // ============================================
-        const VOLUMEN_MUSICA = 0.70;
-        const bgMusic = document.getElementById('bgMusic');
+        const YOUTUBE_URL = 'https://www.youtube.com/watch?v=mRkIcloDxdU';
+
         const musicToggle = document.getElementById('musicToggle');
         const musicIcon = document.getElementById('musicIcon');
         const activationOverlay = document.getElementById('musicActivationOverlay');
         const activarMusicaBtn = document.getElementById('activarMusicaBtn');
 
-        let musicMuted = false;
-        let musicPlaying = false;
-        let musicIntentado = false;
-
-        if (bgMusic) {
-            bgMusic.volume = VOLUMEN_MUSICA;
-            bgMusic.loop = true;
-
-            bgMusic.addEventListener('playing', () => {
-                musicPlaying = true;
-                musicMuted = false;
-                actualizarIconoMusica();
-                console.log('✅ Música sinfónica reproduciéndose');
-                if (activationOverlay) activationOverlay.style.display = 'none';
-            });
-
-            bgMusic.addEventListener('pause', () => {
-                musicPlaying = false;
-                actualizarIconoMusica();
-            });
-
-            bgMusic.addEventListener('error', (e) => {
-                console.warn('⚠️ Error en fuente de audio, probando siguiente...', e);
-            });
-        }
-
-        function actualizarIconoMusica() {
-            if (!musicIcon || !musicToggle) return;
-            musicToggle.classList.remove('muted');
-            if (musicMuted) {
-                musicIcon.className = 'fas fa-volume-mute';
-                musicToggle.classList.add('muted');
-                musicToggle.title = 'Activar música';
-            } else if (musicPlaying) {
-                musicIcon.className = 'fas fa-music';
-                musicToggle.title = 'Silenciar música';
-            } else {
-                musicIcon.className = 'fas fa-play';
-                musicToggle.title = 'Reproducir música';
+        function abrirMusicaYouTube() {
+            // Abre la radio de música clásica 24/7 en una pestaña nueva
+            window.open(YOUTUBE_URL, '_blank', 'noopener,noreferrer');
+            if (musicIcon) musicIcon.className = 'fas fa-music';
+            if (musicToggle) {
+                musicToggle.classList.remove('muted');
+                musicToggle.title = 'Abrir radio de música clásica en YouTube';
             }
-        }
-
-        function mostrarOverlayActivacion() {
-            if (activationOverlay) activationOverlay.style.display = 'flex';
-        }
-
-        function ocultarOverlayActivacion() {
             if (activationOverlay) activationOverlay.style.display = 'none';
+            showToast('🎵 Abriendo radio de música clásica en YouTube...');
         }
 
-        async function intentarReproducirMusica() {
-            if (!bgMusic) return false;
-            if (musicPlaying && !musicMuted) return true;
-
-            try {
-                bgMusic.muted = false;
-                bgMusic.volume = VOLUMEN_MUSICA;
-                await bgMusic.play();
-                musicPlaying = true;
-                musicMuted = false;
-                actualizarIconoMusica();
-                ocultarOverlayActivacion();
-                console.log('✅ Música iniciada correctamente');
-                return true;
-            } catch (err) {
-                console.warn('⚠️ Autoplay bloqueado:', err.name, err.message);
-                if (err.name === 'NotAllowedError' || err.name === 'NotSupportedError') {
-                    mostrarOverlayActivacion();
-                }
-                return false;
-            }
-        }
-
-        function iniciarMusicaEnLogin() {
-            musicIntentado = true;
-            intentarReproducirMusica();
-        }
-
-        function toggleMusica(e) {
-            if (e) { e.stopPropagation(); e.preventDefault(); }
-            if (!bgMusic) return;
-
-            if (musicMuted || !musicPlaying) {
-                musicMuted = false;
-                intentarReproducirMusica().then(ok => {
-                    if (ok) showToast('🎵 Música sinfónica clásica activada');
-                });
-            } else {
-                musicMuted = true;
-                bgMusic.muted = true;
-                actualizarIconoMusica();
-                showToast('🔇 Música silenciada');
-            }
+        if (musicToggle) {
+            musicToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                abrirMusicaYouTube();
+            });
         }
 
         if (activarMusicaBtn) {
             activarMusicaBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                musicMuted = false;
-                intentarReproducirMusica().then(ok => {
-                    if (ok) showToast('🎵 ¡Disfruta la música sinfónica!');
-                });
+                e.preventDefault();
+                abrirMusicaYouTube();
             });
         }
-
-        if (musicToggle) musicToggle.addEventListener('click', toggleMusica);
-
-        function desbloquearAudioPrimerClic() {
-            if (!musicIntentado) return;
-            intentarReproducirMusica();
-            document.removeEventListener('click', desbloquearAudioPrimerClic);
-            document.removeEventListener('touchstart', desbloquearAudioPrimerClic);
-            document.removeEventListener('keydown', desbloquearAudioPrimerClic);
-        }
-        document.addEventListener('click', desbloquearAudioPrimerClic, { once: false });
-        document.addEventListener('touchstart', desbloquearAudioPrimerClic, { once: false });
-        document.addEventListener('keydown', desbloquearAudioPrimerClic, { once: false });
-
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                if (!musicPlaying && !musicIntentado) {
-                    bgMusic.play().then(() => {
-                        musicPlaying = true;
-                        actualizarIconoMusica();
-                    }).catch(() => {
-                        console.log('ℹ️ Autoplay bloqueado, esperando interacción del usuario');
-                    });
-                }
-            }, 800);
-        });
-
-        document.querySelectorAll('.btn-role').forEach(btn => {
-            btn.addEventListener('click', () => {
-                setTimeout(() => iniciarMusicaEnLogin(), 100);
-            });
-        });
 
         // ============================================
         // UTILIDADES
@@ -1773,7 +1649,6 @@
                         goToLoginBtn.addEventListener('click', () => {
                             const carnetInput = document.getElementById('clientCarnet');
                             if (carnetInput) carnetInput.value = carnetNorm;
-                            iniciarMusicaEnLogin();
                             loginClienteConCarnet(carnetNorm);
                         });
                     }
@@ -1821,7 +1696,6 @@
 
             await cargarDocumentosCliente(carnetNorm);
 
-            iniciarMusicaEnLogin();
             showToast(`✅ Bienvenido, ${currentClient.nombre}`);
             return true;
         }
@@ -2025,13 +1899,6 @@
             currentClient = null;
             allDocuments = [];
             currentFilter = "";
-            if (bgMusic) {
-                bgMusic.pause();
-                bgMusic.currentTime = 0;
-                musicPlaying = false;
-                musicMuted = false;
-                actualizarIconoMusica();
-            }
             const clientCarnetInput = document.getElementById('clientCarnet');
             if (clientCarnetInput) clientCarnetInput.value = '';
             const verifyCarnetInput = document.getElementById('verifyCarnet');
